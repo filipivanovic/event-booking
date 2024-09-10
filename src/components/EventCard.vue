@@ -1,7 +1,7 @@
 
 <script setup>
 
-import Button from '@/components/Button.vue'
+import RoundButton from '@/components/RoundButton.vue'
 
 defineProps({
   title: String,
@@ -18,7 +18,7 @@ defineEmits(['register'])
     <p class="p-4 border-b border-gray-200">{{ when }}</p>
     <p class="p-4">{{ description }}</p>
     <section class="flex justify-end p-4">
-      <Button label="Register" @click="$emit('register')" />
+      <RoundButton  @click="$emit('register')">Register</RoundButton>
     </section>
   </div>
 </template>
