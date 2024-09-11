@@ -1,11 +1,15 @@
 <script setup>
 
 import SectionCard from '@/components/SectionCard.vue'
+import RoundButton from '@/components/RoundButton.vue'
 </script>
 
 <template>
   <SectionCard>
-    Booking to Vue Conference
+    <div class="flex justify-between">
+      <div>Booking to Vue Conference</div>
+      <RoundButton variant="danger">Cancel</RoundButton>
+    </div>
   </SectionCard>
 </template>
 
