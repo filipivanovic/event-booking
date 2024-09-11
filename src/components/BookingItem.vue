@@ -1,12 +1,12 @@
 <script setup>
 
-import RoundCard from '@/components/RoundCard.vue'
+import SectionCard from '@/components/SectionCard.vue'
 </script>
 
 <template>
-  <RoundCard>
-    <div class="p-4">Booking to Vue Conference</div>
-  </RoundCard>
+  <SectionCard>
+    Booking to Vue Conference
+  </SectionCard>
 </template>
 
 <style scoped>
