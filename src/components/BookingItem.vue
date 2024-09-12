@@ -7,7 +7,7 @@ import RoundButton from '@/components/RoundButton.vue'
 <template>
   <SectionCard>
     <div class="flex justify-between">
-      <div>Booking to Vue Conference</div>
+      <slot></slot>
       <RoundButton variant="danger">Cancel</RoundButton>
     </div>
   </SectionCard>
