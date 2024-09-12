@@ -10,6 +10,9 @@ const bookings = ref([])
 const eventsLoading = ref(false)
 const bookingsLoading = ref(false)
 
+const findBookingById = (id) => {
+  bookings.value.findIndex(b => b.id === id)
+}
 const fetchEvents = async () => {
   eventsLoading.value = true
   try {
@@ -58,7 +61,7 @@ const handleRegistration = async (event) => {
       })
     })
     if (response.ok) {
-      const index = bookings.value.findIndex(b => b.id === newBooking.id)
+      const index = findBookingById(newBooking.id)
       bookings.value[index] = await response.json()
     } else {
       throw new Error('Failed to confirm booking')
@@ -66,6 +69,24 @@ const handleRegistration = async (event) => {
   } catch (e) {
     console.error('Failed to register for event ', e)
     bookings.value = bookings.value.filter(b => b.id !== newBooking.id)
+  }
+}
+
+const cancelBooking = async (bookingId) => {
+  const index = findBookingById(bookingId)
+  const originalBooking = bookings.value[index]
+  bookings.value.splice(index, 1)
+
+  try {
+    const response = await fetch(`http://localhost:3001/bookings/${bookingId}`, {
+      method: 'DELETE'
+    })
+    if (!response.ok) {
+      throw new Error('Booking could not be canceled.')
+    }
+  } catch (e) {
+    console.error('Failed to cancel booking ', e)
+    bookings.value.splice(index, 0, originalBooking)
   }
 }
 
@@ -95,7 +116,10 @@ onMounted(() => {
     <h2 class="text-2xl font-medium">Your Bookings</h2>
     <section class="grid grid-cols-1 gap-4">
       <template v-if="!bookingsLoading">
-        <BookingItem v-for="booking in bookings" :key="booking" :title="booking.eventTitle" :status="booking.status"></BookingItem>
+        <BookingItem v-for="booking in bookings"
+                     :key="booking" :title="booking.eventTitle"
+                     :status="booking.status"
+                     @canceled="cancelBooking(booking.id)"></BookingItem>
       </template>
       <template v-else>
         <LoadingBookingItem v-for="i in 4" :key="i"></LoadingBookingItem>
