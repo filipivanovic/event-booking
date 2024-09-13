@@ -1,26 +1,14 @@
 <script setup>
-import EventCard from '@/components/EventCard.vue'
 import BookingItem from '@/components/BookingItem.vue'
-import LoadingEventCard from '@/components/LoadingEventCard.vue'
 import { ref, onMounted } from 'vue'
 import LoadingBookingItem from '@/components/LoadingBookingItem.vue'
+import EventList from '@/components/EventList.vue'
 
-const events = ref([])
 const bookings = ref([])
-const eventsLoading = ref(false)
 const bookingsLoading = ref(false)
 
 const findBookingById = (id) => {
   bookings.value.findIndex(b => b.id === id)
-}
-const fetchEvents = async () => {
-  eventsLoading.value = true
-  try {
-    const response = await fetch('http://localhost:3001/events')
-    events.value = await response.json()
-  } finally {
-    eventsLoading.value = false
-  }
 }
 
 const fetchBookings = async () => {
@@ -35,7 +23,6 @@ const fetchBookings = async () => {
 
 const handleRegistration = async (event) => {
   const isAlreadyRegistered = bookings.value.some(booking => booking.eventId === event.id && booking.userId === 1)
-  console.log(isAlreadyRegistered, 'isalreadyregistered')
   if (isAlreadyRegistered) {
     alert('You are already registered for this event.')
     return
@@ -91,7 +78,6 @@ const cancelBooking = async (bookingId) => {
 }
 
 onMounted(() => {
-  fetchEvents()
   fetchBookings()
 })
 
@@ -100,19 +86,7 @@ onMounted(() => {
   <main class="container mx-auto my-8 space-y-8">
     <h1 class="text-4xl font-medium">Event Booking App</h1>
     <h2 class="text-2xl font-medium">All Events</h2>
-    <section class="grid grid-cols-2 gap-8">
-      <template v-if="!eventsLoading">
-        <EventCard v-for="event in events"
-                   :key="event.id"
-                   :title="event.title"
-                   :when="event.date"
-                   :description="event.description"
-                   @register="handleRegistration(event)" />
-      </template>
-      <template v-else>
-        <LoadingEventCard v-for="i in 4" :key="i"></LoadingEventCard>
-      </template>
-    </section>
+    <EventList @register="handleRegistration($event)"></EventList>
     <h2 class="text-2xl font-medium">Your Bookings</h2>
     <section class="grid grid-cols-1 gap-4">
       <template v-if="!bookingsLoading">
