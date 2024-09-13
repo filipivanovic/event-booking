@@ -7,9 +7,7 @@ import EventList from '@/components/EventList.vue'
 const bookings = ref([])
 const bookingsLoading = ref(false)
 
-const findBookingById = (id) => {
-  bookings.value.findIndex(b => b.id === id)
-}
+const findBookingById = (id) => bookings.value.findIndex(b => b.id === id)
 
 const fetchBookings = async () => {
   bookingsLoading.value = true
@@ -93,7 +91,7 @@ onMounted(() => {
         <BookingItem v-for="booking in bookings"
                      :key="booking" :title="booking.eventTitle"
                      :status="booking.status"
-                     @canceled="cancelBooking(booking.id)"></BookingItem>
+                     @cancelled="cancelBooking(booking.id)"></BookingItem>
       </template>
       <template v-else>
         <LoadingBookingItem v-for="i in 4" :key="i"></LoadingBookingItem>
