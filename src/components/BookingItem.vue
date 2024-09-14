@@ -1,4 +1,5 @@
 <script setup>
+
 import SectionCard from '@/components/SectionCard.vue'
 import RoundButton from '@/components/RoundButton.vue'
 import { LoaderCircle, Check } from 'lucide-vue-next'
