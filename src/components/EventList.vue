@@ -2,14 +2,17 @@
 
 import EventCard from '@/components/EventCard.vue'
 import LoadingEventCard from '@/components/LoadingEventCard.vue'
-
-import { ref, onMounted } from 'vue'
 import SectionCard from '@/components/SectionCard.vue'
 import RoundButton from '@/components/RoundButton.vue'
+
+import { ref, onMounted } from 'vue'
+import useBookings from '@/composable/useBookings.js'
 
 const events = ref([])
 const loading = ref(false)
 const error = ref(null)
+
+const { handleRegistration } = useBookings()
 
 const fetchEvents = async () => {
   loading.value = true
@@ -27,8 +30,6 @@ const fetchEvents = async () => {
 onMounted(() => {
   fetchEvents()
 })
-
-defineEmits(['register'])
 
 </script>
 
@@ -52,7 +53,7 @@ defineEmits(['register'])
                      :title="event.title"
                      :when="event.date"
                      :description="event.description"
-                     @register="$emit('register', event)" />
+                     @register="handleRegistration(event)" />
         </template>
         <template v-else>
           <div class="col-span-2 text-center text-gray-500">
