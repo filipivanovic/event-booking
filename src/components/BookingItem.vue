@@ -37,5 +37,3 @@ defineEmits(['cancelled'])
     </div>
   </SectionCard>
 </template>
-
-<!-- Remove empty style block if not needed -->
